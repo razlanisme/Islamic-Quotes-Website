@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Islamic Quotes</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Islamic Quotes & Verses</h1>
+
+        <input type="text" id="searchInput" onkeyup="filterQuotes()" placeholder="Search for quotes...">
+        
+        <div class="filter">
+            <button onclick="filterCategory('all')">All</button>
+            <button onclick="filterCategory('quran')">Quran</button>
+            <button onclick="filterCategory('hadith')">Hadith</button>
+            <button onclick="filterCategory('advice')">Advice</button>
+        </div>
+
+        <ul id="quotesList">
+            <li data-category="quran">"Indeed, with hardship comes ease." - Quran (94:6)</li>
+            <li data-category="hadith">"The best among you are those who have the best manners and character." - Hadith</li>
+            <li data-category="advice">"Patience is the key to peace."</li>
+            <li data-category="quran">"So remember Me; I will remember you." - Quran (2:152)</li>
+            <li data-category="advice">"Take time for reflection and gratitude every day."</li>
+            <li data-category="hadith">"None of you truly believes until he loves for his brother what he loves for himself." - Hadith</li>
+        </ul>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
