@@ -5,27 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Islamic Quotes</title>
     <link rel="stylesheet" href="style.css">
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
+
+    <script>
+        // Your Firebase configuration from the Firebase Console
+        const firebaseConfig = {
+            apiKey: "your-api-key",
+            authDomain: "your-app.firebaseapp.com",
+            projectId: "your-project-id",
+            storageBucket: "your-app.appspot.com",
+            messagingSenderId: "your-sender-id",
+            appId: "your-app-id"
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+    </script>
 </head>
 <body>
-    <div class="container">
-        <h1>Islamic Quotes & Verses</h1>
 
-        <input type="text" id="searchInput" onkeyup="filterQuotes()" placeholder="Search for quotes...">
-        
-        <div class="filter">
-            <button onclick="filterCategory('all')">All</button>
-            <button onclick="filterCategory('quran')">Quran</button>
-            <button onclick="filterCategory('hadith')">Hadith</button>
-            <button onclick="filterCategory('advice')">Advice</button>
-        </div>
+    <!-- Admin Panel: Form for Adding New Quotes -->
+    <div id="admin-panel">
+        <h2>Add a New Quote</h2>
+        <form id="quoteForm">
+            <input type="text" id="newQuote" placeholder="Enter quote" required>
+            <select id="categorySelect">
+                <option value="quran">Quran</option>
+                <option value="hadith">Hadith</option>
+                <option value="advice">Advice</option>
+            </select>
+            <button type="submit">Add Quote</button>
+        </form>
+    </div>
 
+    <!-- Section to Display Quotes -->
+    <div id="quotes-section">
+        <h2>Quotes</h2>
         <ul id="quotesList">
-            <li data-category="quran">"Indeed, with hardship comes ease." - Quran (94:6)</li>
-            <li data-category="hadith">"The best among you are those who have the best manners and character." - Hadith</li>
-            <li data-category="advice">"Patience is the key to peace."</li>
-            <li data-category="quran">"So remember Me; I will remember you." - Quran (2:152)</li>
-            <li data-category="advice">"Take time for reflection and gratitude every day."</li>
-            <li data-category="hadith">"None of you truly believes until he loves for his brother what he loves for himself." - Hadith</li>
+            <!-- Quotes will be dynamically loaded here -->
         </ul>
     </div>
 

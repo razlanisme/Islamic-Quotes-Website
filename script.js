@@ -1,35 +1,48 @@
-// Filter quotes based on search input
-function filterQuotes() {
-    let input = document.getElementById('searchInput');
-    let filter = input.value.toLowerCase();
-    let ul = document.getElementById("quotesList");
-    let li = ul.getElementsByTagName('li');
-
-    for (let i = 0; i < li.length; i++) {
-        let txtValue = li[i].textContent || li[i].innerText;
-        if (txtValue.toLowerCase().indexOf(filter) > -1) {
-            li[i].style.display = "";
-        } else {
-            li[i].style.display = "none";
-        }
-    }
+// Function to add quote to Firestore
+function addQuote(quote, category) {
+    db.collection("quotes").add({
+        text: quote,
+        category: category
+    }).then(() => {
+        console.log("Quote successfully added!");
+        alert("Quote added successfully!");
+    }).catch((error) => {
+        console.error("Error adding quote: ", error);
+    });
 }
 
-// Filter quotes by category (Quran, Hadith, Advice)
-function filterCategory(category) {
-    let ul = document.getElementById("quotesList");
-    let li = ul.getElementsByTagName('li');
+// Handling form submission for adding a new quote
+const form = document.getElementById("quoteForm");
+form.addEventListener("submit", (e) => {
+    e.preventDefault(); // Prevent form from reloading the page
 
-    for (let i = 0; i < li.length; i++) {
-        if (category === 'all') {
-            li[i].style.display = "";
-        } else {
-            let itemCategory = li[i].getAttribute('data-category');
-            if (itemCategory === category) {
-                li[i].style.display = "";
-            } else {
-                li[i].style.display = "none";
-            }
-        }
-    }
+    const quote = document.getElementById("newQuote").value;
+    const category = document.getElementById("categorySelect").value;
+
+    // Add the quote to Firestore
+    addQuote(quote, category);
+
+    // Reset the form after submission
+    form.reset();
+});
+
+// Function to fetch quotes from Firestore and display them
+function getQuotes() {
+    const quotesList = document.getElementById("quotesList");
+    db.collection("quotes").get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            const quote = doc.data().text;
+            const category = doc.data().category;
+
+            // Create a new list item for each quote
+            const li = document.createElement("li");
+            li.textContent = `"${quote}" - ${category}`;
+            quotesList.appendChild(li);
+        });
+    });
 }
+
+// Call getQuotes() when the page loads
+window.onload = () => {
+    getQuotes();
+};
